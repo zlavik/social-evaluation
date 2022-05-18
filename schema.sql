@@ -6,5 +6,5 @@ CREATE TABLE users (
     displayName text NOT NULL,
     imageSrc text NOT NULL,
     userTotalScore FLOAT DEFAULT 0,
-    followerCount int NOT NULL,
+    followerCount int NOT NULL
 );

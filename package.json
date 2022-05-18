@@ -4,6 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
+    "heroku-postbuild": "npm install --production",
     "test": "echo \"Error: no test specified\" && exit 1",
     "scss": "node-sass --watch ./public/stylesheets/scss -o ./public/stylesheets/css",
     "start": "npx nodemon ./bin/www"

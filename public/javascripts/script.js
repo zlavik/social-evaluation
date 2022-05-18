@@ -44,6 +44,15 @@ const options = {
 
 const tableList = new List('tableID', options);
 
+$(document).ready(() => {
+  const searchText = document.querySelector('.search');
+  tableList.search(searchText.value);
+  setTimeout(() => {
+    tableList.search('');
+    searchText.value = 'Search...';
+  }, '7000');
+});
+
 $('.jPaginateNext').on('click', () => {
   const list = $('.pagination').find('li');
   $.each(list, (position, element) => {

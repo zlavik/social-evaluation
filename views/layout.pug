@@ -45,9 +45,13 @@ html(lang="en-US")
 							#tableID
 								ol#filter
 									li.sort(data-sort="followerCount") Follower Count
-									li.sort(data-sort="score") Sentiment Score 
-									li
-										input.search(type="text" placeholder="Search...")
+									li.sort(data-sort="score") Sentiment Score
+									if personAdded === undefined
+										li
+											input.search(type="text" placeholder="Search...")
+									else 
+										li
+											input.search(type="text" value=personAdded)
 								.content(style='padding-top: 10px;')
 									ul.list-head
 										li

@@ -86,8 +86,8 @@ router.post(
       }
 
       await res.locals.store.updateUserScore(totalScore, twitterUser.data.id);
-
       res.redirectFlash(302, '/', {
+        personBeingAdded: twitterUser.data.username,
         success: redirectMsg,
       });
     } catch (err) {

@@ -7,15 +7,17 @@ router.get(
   '/',
   catchError(async (req, res) => {
     const allUsersFromDb = await res.locals.store.sortUsers();
-    const v1 = res.locals.success;
+    const successMsg = res.locals.success;
+    const personAdded = res.locals.personBeingAdded;
     allUsersFromDb.forEach((user, index) => {
       user.rank = index + 1;
     });
 
     res.render('index', {
+      personAdded,
       users: allUsersFromDb,
       flash: req.flash(),
-      redirectMsg: v1,
+      redirectMsg: successMsg,
     });
   }),
 );

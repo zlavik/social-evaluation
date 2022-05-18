@@ -1,0 +1,38 @@
+{
+  "name": "slavawork",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "scss": "node-sass --watch ./public/stylesheets/scss -o ./public/stylesheets/css",
+    "start": "npx nodemon ./bin/www"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@u4da3/express-redirect-flash": "^0.2.0",
+    "connect-loki": "^1.2.0",
+    "debug": "^4.3.4",
+    "dotenv": "^16.0.0",
+    "eqcss": "^1.9.2",
+    "express": "^4.18.1",
+    "express-flash": "^0.0.2",
+    "express-session": "^1.17.3",
+    "fs": "^0.0.1-security",
+    "http-errors": "~1.6.2",
+    "jsonfile": "^6.1.0",
+    "multilang-sentiment": "^2.0.0",
+    "natural": "^5.2.2",
+    "node-sass": "^7.0.1",
+    "path": "^0.12.7",
+    "pg": "^8.7.3",
+    "pug": "^3.0.2",
+    "twitter-api-v2": "^1.12.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.15.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0"
+  }
+}

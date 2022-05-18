@@ -1,0 +1,64 @@
+extends layout
+
+block main
+
+  .row.pop-up
+    .box.small-6.large-centered
+      a.close-button(href='#') &#x2716;
+      h3 Add user from twitter
+      p
+        | Search by handle
+      form#addUserForm(action="/addUser" method="post" )
+        input.input(
+          type="text"
+          name="handle"
+          placeholder='elonmusk'
+          required="true"
+          style="padding: 9px; color: #171717;"
+          onkeyup="stateHandle()"
+          )
+        button.c-button.c-button--primary.button#btnSubmit(type='button') Add User
+
+
+  script.
+    const overlayCover = document.querySelector('#overlay.cover');
+
+    $(document).ready(function(){
+      $(overlayCover).addClass('blur-in');
+
+    });
+    
+
+    $(function() {
+    $('.pop-up').hide();
+    $('.pop-up').fadeIn(0);
+    
+        $('.close-button').click(function (e) { 
+
+        $('.pop-up').fadeOut(0);
+        $('#overlay').removeClass('blur-in');
+        $('#overlay').addClass('blur-out');
+        e.stopPropagation();
+          
+      });
+    });
+    let input = document.querySelector(".input")
+    let button = document.querySelector(".button")
+
+    button.disabled = true
+
+    function disableButton() {
+      button.disabled = true
+    }
+
+    function stateHandle() {
+      if (document.querySelector(".input").value === "") {
+        button.disabled = true
+      } else {
+        button.disabled = false
+      }
+    }
+
+    $("#btnSubmit").click(function () {
+      $('#addUserForm').submit();
+    });

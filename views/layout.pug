@@ -1,0 +1,121 @@
+doctype html
+html(lang="en-US")
+	head
+			meta(charset='utf-8')
+			title Social Evaluation
+			link(rel='stylesheet' href='/stylesheets/css/normalize.css')
+			link(rel='stylesheet' type='text/css' href='/stylesheets/css/styles.css')
+			link(href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,300' rel='stylesheet' type='text/css')
+			link(href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet')
+			link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
+			script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js')
+			script(src='//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js')
+			script(type='module' src='/javascripts/script.js')
+	body
+		main
+			- let msg = redirectMsg || '';
+				if redirectMsg !== undefined
+					ul
+						p.flash(class='success')=redirectMsg
+			- let kinds = Object.keys(flash || {});
+				if kinds.length > 0
+					ul
+						each kind in kinds
+							each message in flash[kind]
+								p.flash(class=kind)= message
+			#overlay.cover
+				.content
+					.l-wrapper
+						.c-header
+								a(href="/")
+										img.c-logo(src="/images/logo.png" draggable="false")
+								form#add-contact-form(action="/addUser" method="get")
+										button.c-button.c-button--primary Add User
+				if users === undefined || users.length === 0
+					table
+						h2 
+							small
+								| There are no users, why not add on?
+					h1
+						|Leaderboard
+						span # Wholesome/Toxic
+				else
+					.flex-container
+						.item2
+							#tableID
+								ol#filter
+									li.sort(data-sort="followerCount") Follower Count
+									li.sort(data-sort="score") Sentiment Score 
+									li
+										input.search(type="text" placeholder="Search...")
+								.content(style='padding-top: 10px;')
+									ul.list-head
+										li
+											span Rank
+											span Name
+											span Score
+											span Followers
+								
+									ul.list
+										tbody.list
+											each user in users
+												li
+													span.rank=user.rank
+													span.name
+														img.c-avatar.c-media__img(src=user.imagesrc)
+														=user.displayname
+														a.c-media__link.u-text--small(href=`https://twitter.com/${user.handle}` target='_blank')=`@${user.handle}`
+												
+													span.score=user.usertotalscore
+													span.followerCount=user.followercount
+
+
+								table.table-footer.parent
+									tr
+										td.table-pagination
+											button.jPaginateBack(type='button')
+												i.fa.fa-arrow-left
+											ul.pagination
+											button.jPaginateNext(type='button')
+												i.fa.fa-arrow-right
+						.item1
+								.l-grid__item.l-grid__item--sticky
+										.c-card.u-bg--light-gradient.u-text--dark
+												.c-card__body
+														.u-display--flex.u-justify--space-between
+																.u-text--left
+																		.u-text--small Name
+																		h2(style="padding-left: 0px")=users[0].displayname
+																.u-text--right
+																		.u-text--small Score
+																		h2=users[0].usertotalscore
+
+										.c-card
+											.c-card__body
+												.u-text--center
+														.u-text-small.u-text--medium.u-mb--16 Most positive
+														img.c-avatar.c-avatar--lg(src=users[0].imagesrc)
+														h3.u-mt--16=users[0].displayname
+														a.c-media__link.u-text--small(href=`https://twitter.com/${users[0].handle}` target='_blank')=`@${users[0].handle}`
+
+
+						.item3
+								.l-grid__item.l-grid__item--sticky
+										.c-card.u-bg--light-gradient.u-text--dark
+												.c-card__body
+														.u-display--flex.u-justify--space-between
+																.u-text--left
+																		.u-text--small Name
+																		h2(style="padding-left: 0px")=users[users.length -1].displayname 
+																.u-text--right
+																		.u-text--small Score
+																		h2=users[users.length -1].usertotalscore
+										.c-card
+											.c-card__body
+												.u-text--center
+														.u-text-small.u-text--medium.u-mb--16 Most negative
+														img.c-avatar.c-avatar--lg(src=users[users.length -1].imagesrc)
+														h3.u-mt--16=users[users.length -1].displayname
+														a.c-media__link.u-text--small(href=`https://twitter.com/${users[users.length -1].handle}` target='_blank')=`@${users[users.length -1].handle}`
+	block main
+		

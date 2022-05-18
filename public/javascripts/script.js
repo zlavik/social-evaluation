@@ -45,11 +45,11 @@ const options = {
 const tableList = new List('tableID', options);
 
 $(document).ready(() => {
-  const searchText = document.querySelector('.search');
-  tableList.search(searchText.value);
+  const searchText = document.querySelector('.search').value;
+  tableList.search(searchText);
   setTimeout(() => {
     tableList.search('');
-    searchText.value = 'Search...';
+    document.querySelector('.search').value = '';
   }, '7000');
 });
 

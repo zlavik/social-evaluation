@@ -14,10 +14,17 @@ $(document).ready(() => {
 
 const button = $('.button');
 const spinner = '<span class="spinner"></span>';
+const loadingText = document.querySelector('#loadingText');
+const preloadingText = document.querySelector('#preloadingText');
 
+loadingText.hidden = true;
+preloadingText.hidden = false;
 button.click(() => {
   if (!button.hasClass('loading')) {
     button.toggleClass('loading').html(spinner);
+    preloadingText.hidden = true;
+
+    loadingText.hidden = false;
   }
 });
 

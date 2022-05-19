@@ -6,8 +6,11 @@ block main
     .box.small-6.large-centered
       a.close-button(href='#') &#x2716;
       h3 Add user from twitter
-      p
+      p#preloadingText
         | Search by handle
+      p#loadingText
+        | Analyzing tweets
+        span.analyzing
       form#addUserForm(action="/addUser" method="post" )
         input.input(
           type="text"
@@ -20,9 +23,11 @@ block main
         button.c-button.c-button--primary.button#btnSubmit(type='button') Add User
 
 
+
   script.
     const overlayCover = document.querySelector('#overlay.cover');
 
+    
     $(document).ready(function(){
       $(overlayCover).addClass('blur-in');
 

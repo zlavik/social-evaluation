@@ -1076,3 +1076,22 @@ ul {
   order:3;
   align-self:flex-start;
 }
+
+
+.analyzing {
+  animation: extend 3s steps(3, end) infinite;
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+}
+.analyzing:before {
+  content: "...";
+}
+@keyframes extend {
+  0% {
+    width: 0.25em;
+  }
+  100% {
+    width: 1em;
+  }
+}

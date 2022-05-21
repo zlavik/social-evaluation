@@ -61,7 +61,7 @@ router.post(
         tweetCount += 1;
       });
 
-      totalScore = ((totalScore / tweetCount) * 100).toFixed(2);
+      totalScore = ((totalScore / tweetCount) * 10).toFixed(2);
       console.log(tweetCount);
       if (!checkUserExists) {
         redirectMsg = `${twitterUser.data.name} added! ${tweetCount} tweets were analyzed`;

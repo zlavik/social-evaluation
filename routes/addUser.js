@@ -2,13 +2,11 @@ const express = require('express');
 
 const router = express.Router();
 const TwitterApi = require('twitter-api-v2').default;
-const Analyzer = require('natural').SentimentAnalyzer;
 const stemmer = require('natural').PorterStemmer;
+const ml = require('ml-sentiment')();
 const catchError = require('../lib/catch-error');
 const PgPersistence = require('../lib/database/pg-persistance');
 const config = require('../lib/config');
-
-const analyzer = new Analyzer('English', stemmer, 'afinn');
 
 // create a new datastore
 router.use((req, res, next) => {
@@ -50,41 +48,28 @@ router.post(
       const twitterUser = await client.v2.userByUsername(handleName, { 'user.fields': ['profile_image_url', 'public_metrics'] });
       const checkUserExists = await res.locals.store.checkUserExists(twitterUser.data.id);
 
-      if (!checkUserExists) {
-        redirectMsg = `${twitterUser.data.name} added!`;
-        await res.locals.store.addUser(twitterUser.data.username, twitterUser.data.name, twitterUser.data.profile_image_url.replace('_normal', ''), twitterUser.data.id, twitterUser.data.public_metrics.followers_count);
-      } else {
-        redirectMsg = `${twitterUser.data.name} updated!`;
-      }
-
-      const userTimeline = await client.v2.userTimeline(
+      const userTimeline = await client.v1.userTimeline(
         twitterUser.data.id,
         {
-          max_results: 100,
-          exclude: 'retweets',
+          count: 200,
+          include_rts: false,
         },
       );
+      const fetchedTweets = userTimeline.tweets;
 
-      if (!userTimeline.done) {
-        while (!userTimeline.done) {
-          const tweets = await userTimeline.fetchLast(250);
-          for await (const tweet of tweets) {
-            totalScore += analyzer.getSentiment(tweet.text.split(' '));
-            tweetCount++;
-          }
-        }
-      } else {
-        for await (const tweet of userTimeline) {
-          totalScore += analyzer.getSentiment(tweet.text.split(' '));
-          tweetCount++;
-        }
-      }
+      fetchedTweets.forEach((tweet) => {
+        totalScore += ml.classify(tweet.full_text);
+        tweetCount += 1;
+      });
 
       totalScore = ((totalScore / tweetCount) * 100).toFixed(2);
-      if (isNaN(totalScore)) {
-        totalScore = 0;
+      console.log(tweetCount);
+      if (!checkUserExists) {
+        redirectMsg = `${twitterUser.data.name} added! ${tweetCount} tweets were analyzed`;
+        await res.locals.store.addUser(twitterUser.data.username, twitterUser.data.name, twitterUser.data.profile_image_url.replace('_normal', ''), twitterUser.data.id, twitterUser.data.public_metrics.followers_count);
+      } else {
+        redirectMsg = `${twitterUser.data.name} updated! ${tweetCount} tweets were analyzed`;
       }
-
       await res.locals.store.updateUserScore(totalScore, twitterUser.data.id);
       res.redirectFlash(302, '/', {
         personBeingAdded: twitterUser.data.username,

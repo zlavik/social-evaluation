@@ -23,7 +23,7 @@ $('#addUserForm').submit(() => {
 });
 
 const options = {
-  valueNames: ['name', 'score', 'followerCount'],
+  valueNames: ['name', 'score', 'followerCount', 'rank'],
   page: 5,
   pagination: {
     innerWindow: 1,

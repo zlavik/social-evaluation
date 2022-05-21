@@ -2,7 +2,6 @@ const express = require('express');
 
 const router = express.Router();
 const TwitterApi = require('twitter-api-v2').default;
-const stemmer = require('natural').PorterStemmer;
 const ml = require('ml-sentiment')();
 const catchError = require('../lib/catch-error');
 const PgPersistence = require('../lib/database/pg-persistance');

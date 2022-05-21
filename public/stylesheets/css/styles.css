@@ -1020,8 +1020,9 @@ ul {
   text-align: center;
   text-decoration: none;
   line-height: 12px;
-  font-size: 12px;
+  font-size: 20px;
   color: #808080;
+  
 }
 .pagination .disabled {
   display: none;
@@ -1033,9 +1034,6 @@ ul {
   color: #fff;
 }
 
-.fa {
-  color: var(--primary-trans);
-}
 
 
 .flex-container {
